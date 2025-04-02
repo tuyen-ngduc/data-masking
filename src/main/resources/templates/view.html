@@ -32,8 +32,11 @@
             </div>
 
             <div class="row mb-3">
-                <div class="col-md-3 fw-bold">Key ID:</div>
-                <div class="col-md-9" th:text="${maskedData.keyId}"></div>
+                <div class="col-md-3 fw-bold">Key Hash:</div>
+                <div class="col-md-9">
+                    <span class="text-muted font-monospace" th:text="${maskedData.keyId}"></span>
+                    <small class="d-block text-muted">(SHA-256 hash of the encryption key)</small>
+                </div>
             </div>
         </div>
     </div>
@@ -49,7 +52,7 @@
                 <div class="mb-3">
                     <label for="unmaskKey" class="form-label">Secret Key</label>
                     <input type="password" class="form-control" id="unmaskKey" name="key" required>
-                    <div class="form-text">Enter the key used for encryption to view the original data.</div>
+                    <div class="form-text">Enter the original key used for encryption to view the original data.</div>
                 </div>
 
                 <div class="d-grid">
@@ -70,7 +73,7 @@
                 <div class="mb-3">
                     <label for="partialKey" class="form-label">Secret Key</label>
                     <input type="password" class="form-control" id="partialKey" name="key" required>
-                    <div class="form-text">Enter the key used for encryption.</div>
+                    <div class="form-text">Enter the original key used for encryption.</div>
                 </div>
 
                 <div class="mb-3">

@@ -34,7 +34,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Partial Masking</h5>
-                    <p class="card-text">Decrypt data and apply partial masking</p>
+                    <p class="card-text">Decrypt data and apply partial masking.</p>
                     <a href="/partial" class="btn btn-info">Go to Partial Masking</a>
                 </div>
             </div>
@@ -48,6 +48,7 @@
         <tr>
             <th>ID</th>
             <th>Masked Data (AES)</th>
+            <th>Key Hash</th>
             <th>Created At</th>
             <th>Actions</th>
         </tr>
@@ -56,13 +57,14 @@
         <tr th:each="data : ${maskedDataList}">
             <td th:text="${data.id}"></td>
             <td th:text="${#strings.abbreviate(data.maskedData, 30)}"></td>
+            <td><span class="font-monospace text-muted" th:text="${#strings.abbreviate(data.keyId, 15)}"></span></td>
             <td th:text="${#temporals.format(data.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
             <td>
                 <a th:href="@{/view/{id}(id=${data.id})}" class="btn btn-sm btn-primary">View</a>
             </td>
         </tr>
         <tr th:if="${maskedDataList.empty}">
-            <td colspan="4" class="text-center">No data found</td>
+            <td colspan="5" class="text-center">No data found</td>
         </tr>
         </tbody>
     </table>

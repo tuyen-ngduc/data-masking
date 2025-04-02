@@ -6,6 +6,9 @@ import com.datamasking.repository.MaskedDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @Service
@@ -82,13 +85,40 @@ public class DataMaskingService {
     }
 
     /**
+     * Hash the key using SHA-256
+     */
+    private String hashKey(String key) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] encodedHash = digest.digest(key.getBytes(StandardCharsets.UTF_8));
+
+            // Convert byte array to hexadecimal string
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : encodedHash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return key; // Fallback to original key if hashing fails
+        }
+    }
+
+    /**
      * Save masked data to database
      */
     public MaskedData saveMaskedData(String originalData, String maskedData, String keyId) {
         MaskedData data = new MaskedData();
         data.setOriginalDataHash(String.valueOf(originalData.hashCode()));
         data.setMaskedData(maskedData);
-        data.setKeyId(keyId);
+
+        // Hash the key before storing it
+        String hashedKey = hashKey(keyId);
+        data.setKeyId(hashedKey);
 
         return maskedDataRepository.save(data);
     }

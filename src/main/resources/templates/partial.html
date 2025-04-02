@@ -17,7 +17,12 @@
             <form action="/partial" method="post">
                 <div class="mb-3">
                     <label for="key" class="form-label">Secret Key</label>
-                    <input type="password" class="form-control" id="key" name="key" required>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="key" name="key" required>
+                        <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
                     <div class="form-text">Enter the key used for encryption.</div>
                 </div>
 
@@ -46,6 +51,22 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const passwordInput = document.getElementById('key');
+        const togglePasswordButton = document.getElementById('togglePassword');
+
+        togglePasswordButton.addEventListener('click', function() {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                togglePasswordButton.innerHTML = '<i class="bi bi-eye-slash"></i>';
+            } else {
+                passwordInput.type = 'password';
+                togglePasswordButton.innerHTML = '<i class="bi bi-eye"></i>';
+            }
+        });
+    });
+</script>
 </body>
 </html>
-
